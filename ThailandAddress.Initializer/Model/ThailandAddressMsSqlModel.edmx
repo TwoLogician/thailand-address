@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AreaInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProvinceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GeographyInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostalCodeInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SubAreaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProvinceInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="GeographyId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubAreaInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AreaId" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AreaInfo_ProvinceInfo">
+          <End Role="ProvinceInfo" Type="Self.ProvinceInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProvinceInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AreaInfo">
+              <PropertyRef Name="ProvinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostalCodeInfo_SubAreaInfo">
+          <End Role="SubAreaInfo" Type="Self.SubAreaInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PostalCodeInfo" Type="Self.PostalCodeInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubAreaInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostalCodeInfo">
+              <PropertyRef Name="SubAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProvinceInfo_GeographyInfo">
+          <End Role="GeographyInfo" Type="Self.GeographyInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProvinceInfo" Type="Self.ProvinceInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeographyInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProvinceInfo">
+              <PropertyRef Name="GeographyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubAreaInfo_AreaInfo">
+          <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubAreaInfo" Type="Self.SubAreaInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AreaInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubAreaInfo">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AreaInfo" EntityType="Self.AreaInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GeographyInfo" EntityType="Self.GeographyInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostalCodeInfo" EntityType="Self.PostalCodeInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProvinceInfo" EntityType="Self.ProvinceInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubAreaInfo" EntityType="Self.SubAreaInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AreaInfo_ProvinceInfo" Association="Self.FK_AreaInfo_ProvinceInfo">
+            <End Role="ProvinceInfo" EntitySet="ProvinceInfo" />
+            <End Role="AreaInfo" EntitySet="AreaInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostalCodeInfo_SubAreaInfo" Association="Self.FK_PostalCodeInfo_SubAreaInfo">
+            <End Role="SubAreaInfo" EntitySet="SubAreaInfo" />
+            <End Role="PostalCodeInfo" EntitySet="PostalCodeInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProvinceInfo_GeographyInfo" Association="Self.FK_ProvinceInfo_GeographyInfo">
+            <End Role="GeographyInfo" EntitySet="GeographyInfo" />
+            <End Role="ProvinceInfo" EntitySet="ProvinceInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubAreaInfo_AreaInfo" Association="Self.FK_SubAreaInfo_AreaInfo">
+            <End Role="AreaInfo" EntitySet="AreaInfo" />
+            <End Role="SubAreaInfo" EntitySet="SubAreaInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AreaInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProvinceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProvinceInfo" Relationship="Self.FK_AreaInfo_ProvinceInfo" FromRole="AreaInfo" ToRole="ProvinceInfo" />
+          <NavigationProperty Name="SubAreaInfoes" Relationship="Self.FK_SubAreaInfo_AreaInfo" FromRole="AreaInfo" ToRole="SubAreaInfo" />
+        </EntityType>
+        <EntityType Name="GeographyInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ProvinceInfoes" Relationship="Self.FK_ProvinceInfo_GeographyInfo" FromRole="GeographyInfo" ToRole="ProvinceInfo" />
+        </EntityType>
+        <EntityType Name="PostalCodeInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SubAreaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SubAreaInfo" Relationship="Self.FK_PostalCodeInfo_SubAreaInfo" FromRole="PostalCodeInfo" ToRole="SubAreaInfo" />
+        </EntityType>
+        <EntityType Name="ProvinceInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GeographyId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AreaInfoes" Relationship="Self.FK_AreaInfo_ProvinceInfo" FromRole="ProvinceInfo" ToRole="AreaInfo" />
+          <NavigationProperty Name="GeographyInfo" Relationship="Self.FK_ProvinceInfo_GeographyInfo" FromRole="ProvinceInfo" ToRole="GeographyInfo" />
+        </EntityType>
+        <EntityType Name="SubAreaInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AreaId" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AreaInfo" Relationship="Self.FK_SubAreaInfo_AreaInfo" FromRole="SubAreaInfo" ToRole="AreaInfo" />
+          <NavigationProperty Name="PostalCodeInfoes" Relationship="Self.FK_PostalCodeInfo_SubAreaInfo" FromRole="SubAreaInfo" ToRole="PostalCodeInfo" />
+        </EntityType>
+        <Association Name="FK_AreaInfo_ProvinceInfo">
+          <End Role="ProvinceInfo" Type="Self.ProvinceInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProvinceInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AreaInfo">
+              <PropertyRef Name="ProvinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubAreaInfo_AreaInfo">
+          <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubAreaInfo" Type="Self.SubAreaInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AreaInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubAreaInfo">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProvinceInfo_GeographyInfo">
+          <End Role="GeographyInfo" Type="Self.GeographyInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProvinceInfo" Type="Self.ProvinceInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeographyInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProvinceInfo">
+              <PropertyRef Name="GeographyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostalCodeInfo_SubAreaInfo">
+          <End Role="SubAreaInfo" Type="Self.SubAreaInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PostalCodeInfo" Type="Self.PostalCodeInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubAreaInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostalCodeInfo">
+              <PropertyRef Name="SubAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ThailandAddressMsSqlEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AreaInfoes" EntityType="Self.AreaInfo" />
+          <EntitySet Name="GeographyInfoes" EntityType="Self.GeographyInfo" />
+          <EntitySet Name="PostalCodeInfoes" EntityType="Self.PostalCodeInfo" />
+          <EntitySet Name="ProvinceInfoes" EntityType="Self.ProvinceInfo" />
+          <EntitySet Name="SubAreaInfoes" EntityType="Self.SubAreaInfo" />
+          <AssociationSet Name="FK_AreaInfo_ProvinceInfo" Association="Self.FK_AreaInfo_ProvinceInfo">
+            <End Role="ProvinceInfo" EntitySet="ProvinceInfoes" />
+            <End Role="AreaInfo" EntitySet="AreaInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubAreaInfo_AreaInfo" Association="Self.FK_SubAreaInfo_AreaInfo">
+            <End Role="AreaInfo" EntitySet="AreaInfoes" />
+            <End Role="SubAreaInfo" EntitySet="SubAreaInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProvinceInfo_GeographyInfo" Association="Self.FK_ProvinceInfo_GeographyInfo">
+            <End Role="GeographyInfo" EntitySet="GeographyInfoes" />
+            <End Role="ProvinceInfo" EntitySet="ProvinceInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostalCodeInfo_SubAreaInfo" Association="Self.FK_PostalCodeInfo_SubAreaInfo">
+            <End Role="SubAreaInfo" EntitySet="SubAreaInfoes" />
+            <End Role="PostalCodeInfo" EntitySet="PostalCodeInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="ThailandAddressMsSqlEntities">
+          <EntitySetMapping Name="AreaInfoes">
+            <EntityTypeMapping TypeName="Model.AreaInfo">
+              <MappingFragment StoreEntitySet="AreaInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeographyInfoes">
+            <EntityTypeMapping TypeName="Model.GeographyInfo">
+              <MappingFragment StoreEntitySet="GeographyInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostalCodeInfoes">
+            <EntityTypeMapping TypeName="Model.PostalCodeInfo">
+              <MappingFragment StoreEntitySet="PostalCodeInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SubAreaId" ColumnName="SubAreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProvinceInfoes">
+            <EntityTypeMapping TypeName="Model.ProvinceInfo">
+              <MappingFragment StoreEntitySet="ProvinceInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="GeographyId" ColumnName="GeographyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubAreaInfoes">
+            <EntityTypeMapping TypeName="Model.SubAreaInfo">
+              <MappingFragment StoreEntitySet="SubAreaInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
